@@ -8,13 +8,13 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {
-        "eab-dsvenss/php-classtailor": "dev-master",
-        "krlove/eloquent-model-generator": "dev-master"
-    },
     "autoload": {
         "psr-4": {
             "se\\eab\\php\\laravel\\modelgenerator\\": "src/"
         }
+    },
+    "require": {
+        "eab-dsvenss/php-classtailor": "dev-master",
+        "krlove/eloquent-model-generator": "dev-master"
     }
 }

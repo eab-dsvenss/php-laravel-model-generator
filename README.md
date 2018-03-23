@@ -13,3 +13,9 @@ php artisan eab-modelgenerator:install
 Specify models to generate in `eab-modelgenconfig`
 
 Call `php artisan eab-modelgenerator:generate` to generate the models specified in the config file
+
+Update the "Dummy"-model and remove the adjustmentsfile
+
+# Configuration
+
+TODO continue to specify configuration options

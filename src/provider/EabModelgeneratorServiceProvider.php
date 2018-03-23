@@ -4,10 +4,11 @@ namespace se\eab\php\laravel\modelgenerator\provider;
 
 use Illuminate\Support\ServiceProvider;
 
-class EabModelGeneratorServiceProvider extends ServiceProvider
+class EabModelgeneratorServiceProvider extends ServiceProvider
 {
 
     const CONFIG_FILENAME = "eab-modelgenconfig";
+    const MODEL_ADJUSTMENTS_FOLDERNAME = "eab-modelgenerator";
 
     private $basepath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
 
@@ -19,7 +20,8 @@ class EabModelGeneratorServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            $this->basepath . "config" . DIRECTORY_SEPARATOR . EabModelGeneratorServiceProvider::CONFIG_FILENAME . ".php" => config_path(EabModelGeneratorServiceProvider::CONFIG_FILENAME . '.php')
+            $this->basepath . "config" . DIRECTORY_SEPARATOR . EabModelgeneratorServiceProvider::CONFIG_FILENAME . ".php" => config_path(EabModelgeneratorServiceProvider::CONFIG_FILENAME . '.php'),
+            $this->basepath . "config" . DIRECTORY_SEPARATOR . EabModelgeneratorServiceProvider::CONFIG_FILENAME . ".php" => config_path(EabModelgeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . 'Dummy.php')
         ]);
     }
 
