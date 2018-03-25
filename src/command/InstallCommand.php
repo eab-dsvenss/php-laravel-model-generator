@@ -4,7 +4,7 @@ namespace se\eab\php\laravel\modelgenerator\command;
 
 use Illuminate\Console\Command;
 use Artisan;
-use se\eab\php\laravel\modelgenerator\provider\EabModelgeneratorServiceProvider;
+use se\eab\php\laravel\modelgenerator\provider\ModelGeneratorServiceProvider;
 
 class InstallCommand extends Command
 {
@@ -39,6 +39,6 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        Artisan::call("vendor:publish", ['--provider' => EabModelgeneratorServiceProvider::class]);
+        Artisan::call("vendor:publish", ['--provider' => ModelGeneratorServiceProvider::class]);
     }
 }

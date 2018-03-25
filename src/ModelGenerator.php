@@ -2,7 +2,7 @@
 
 namespace se\eab\php\laravel\modelgenerator;
 
-use se\eab\php\laravel\modelgenerator\provider\EabModelgeneratorServiceProvider;
+use se\eab\php\laravel\modelgenerator\provider\ModelGeneratorServiceProvider;
 use se\eab\php\classtailor\ClassTailor;
 use se\eab\php\classtailor\factory\ClassFileFactory;
 
@@ -37,9 +37,9 @@ class ModelGenerator
 
     public function generateModels()
     {
-        $models = config(EabModelgeneratorServiceProvider::CONFIG_FILENAME . ".models");
-        $namespace = config(EabModelgeneratorServiceProvider::CONFIG_FILENAME . ".namespace");
-        $outputpath = config(EabModelgeneratorServiceProvider::CONFIG_FILENAME . ".outputpath");
+        $models = config(ModelGeneratorServiceProvider::CONFIG_FILENAME . ".models");
+        $namespace = config(ModelGeneratorServiceProvider::CONFIG_FILENAME . ".namespace");
+        $outputpath = config(ModelGeneratorServiceProvider::CONFIG_FILENAME . ".outputpath");
 
         foreach ($models as $model) {
             $this->generateModel($model, $outputpath, $namespace);
@@ -62,8 +62,8 @@ class ModelGenerator
     private function adjustModel($name, $outputpath)
     {
 
-        if (file_exists(config_path(EabModelgeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . DIRECTORY_SEPARATOR . "$name.php"))) {
-            $classfilearray = array_merge($adjustArray = config(EabModelgeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . ".$name")
+        if (file_exists(config_path(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . DIRECTORY_SEPARATOR . "$name.php"))) {
+            $classfilearray = array_merge($adjustArray = config(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . ".$name")
                 , ["path" => $outputpath . DIRECTORY_SEPARATOR . "$name.php"]);
             $classfile = ClassFileFactory::getInstance()->createClassFileFromArray($classfilearray);
             $this->classtailor->tailorClass($classfile);

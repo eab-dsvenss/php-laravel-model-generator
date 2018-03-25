@@ -20,8 +20,8 @@ class ModelGeneratorServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            $this->basepath . "config" . DIRECTORY_SEPARATOR . EabModelgeneratorServiceProvider::CONFIG_FILENAME . ".php" => config_path(EabModelgeneratorServiceProvider::CONFIG_FILENAME . '.php'),
-            $this->basepath . "config" . DIRECTORY_SEPARATOR . EabModelgeneratorServiceProvider::CONFIG_FILENAME . ".php" => config_path(EabModelgeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . 'Dummy.php')
+            $this->basepath . "config" . DIRECTORY_SEPARATOR . ModelGeneratorServiceProvider::CONFIG_FILENAME . ".php" => config_path(ModelGeneratorServiceProvider::CONFIG_FILENAME . '.php'),
+            $this->basepath . "config" . DIRECTORY_SEPARATOR . ModelGeneratorServiceProvider::CONFIG_FILENAME . ".php" => config_path(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . 'Dummy.php')
         ]);
     }
 
