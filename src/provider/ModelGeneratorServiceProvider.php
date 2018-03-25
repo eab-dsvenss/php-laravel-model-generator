@@ -3,6 +3,8 @@
 namespace se\eab\php\laravel\modelgenerator\provider;
 
 use Illuminate\Support\ServiceProvider;
+use se\eab\php\laravel\modelgenerator\command\GenerateCommand;
+use se\eab\php\laravel\modelgenerator\command\InstallCommand;
 
 class ModelGeneratorServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,13 @@ class ModelGeneratorServiceProvider extends ServiceProvider
             $this->basepath . "config" . DIRECTORY_SEPARATOR . ModelGeneratorServiceProvider::CONFIG_FILENAME . ".php" => config_path(ModelGeneratorServiceProvider::CONFIG_FILENAME . '.php'),
             $this->basepath . "config" . DIRECTORY_SEPARATOR . ModelGeneratorServiceProvider::CONFIG_FILENAME . ".php" => config_path(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . 'Dummy.php')
         ]);
+        
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                InstallCommand::class,
+                GenerateCommand::class
+            ]);
+        }
     }
 
     /**
