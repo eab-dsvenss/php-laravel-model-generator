@@ -4,8 +4,6 @@ namespace se\eab\php\laravel\modelgenerator;
 
 use se\eab\php\laravel\modelgenerator\provider\EabModelgeneratorServiceProvider;
 use se\eab\php\classtailor\ClassTailor;
-use Config;
-use se\eab\php\classtailor\model\ClassFile;
 use se\eab\php\classtailor\factory\ClassFileFactory;
 
 /**
@@ -24,6 +22,10 @@ class ModelGenerator
         $this->classtailor = new ClassTailor();
     }
 
+    /**
+     * 
+     * @return ModelGenerator
+     */
     public static function getInstance()
     {
         if (!isset(self::$instance)) {
@@ -37,7 +39,7 @@ class ModelGenerator
     {
         $models = config(EabModelgeneratorServiceProvider::CONFIG_FILENAME . ".models");
         $namespace = config(EabModelgeneratorServiceProvider::CONFIG_FILENAME . ".namespace");
-        $outputpath = config(EabModelgeneratorServiceProvider::CONFIG_FILENAME . ".outputpatch");
+        $outputpath = config(EabModelgeneratorServiceProvider::CONFIG_FILENAME . ".outputpath");
 
         foreach ($models as $model) {
             $this->generateModel($model, $outputpath, $namespace);
@@ -47,24 +49,25 @@ class ModelGenerator
     private function generateModel($model, $outputpath, $namespace)
     {
         $modelname = $model['name'];
-        $options = [$modelname, "--output-path" => $outputpath, "--namespace" => $namespace];
+        $options = [$modelname, "--output-path" => app_path($outputpath), "--namespace" => $namespace];
 
         if (isset($model['table'])) {
             $options["--table-name"] = $model['table'];
         }
         Artisan::call("krlove:generate:model", $options);
 
-        $this->adjustModel($modelname);
+        $this->adjustModel($modelname, $outputpath);
     }
 
-    private function adjustModel($name)
+    private function adjustModel($name, $outputpath)
     {
+
         if (file_exists(config_path(EabModelgeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . DIRECTORY_SEPARATOR . "$name.php"))) {
-            $classfile = ClassFileFactory::getInstance()->createClassFileFromArray(config(EabModelgeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . ".$name"));
+            $classfilearray = array_merge($adjustArray = config(EabModelgeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . ".$name")
+                , ["path" => $outputpath . DIRECTORY_SEPARATOR . "$name.php"]);
+            $classfile = ClassFileFactory::getInstance()->createClassFileFromArray($classfilearray);
             $this->classtailor->tailorClass($classfile);
         }
     }
-
-    
 
 }

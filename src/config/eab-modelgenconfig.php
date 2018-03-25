@@ -4,6 +4,6 @@ return [
     "namespace" => "App",
     "path" => "",
     "models" => [
-        "Dummy"
+        ["name" => "Dummy"]
     ]
 ];

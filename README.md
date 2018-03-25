@@ -3,8 +3,20 @@ Wrapper package for laravel model generation from database using [krlove/eloquen
 
 # Installation
 
+Get package
 ```
 composer require eab-dsvenss/php-laravel-model-generator --dev
+```
+Register the provider in `app.php`
+
+```
+'providers' => [
+    // ...
+    se\eab\php\laravel\modelgenerator\provider\ModelGeneratorServiceProvider::class
+];
+```
+
+```
 php artisan eab-modelgenerator:install
 ```
 
@@ -18,4 +30,36 @@ Update the "Dummy"-model and remove the adjustmentsfile
 
 # Configuration
 
-TODO continue to specify configuration options
+## Config example
+
+```
+return [
+    "namespace" => "App",
+    "outputpath" => "model",
+    "models" => [
+        ["name" => "Dummy", <"table" => "DummyTable">]
+    ]
+];
+```
+
+## Model tailoring example
+Just remove dependencies, functions etc if you do not want them present in the tailored class
+```
+return [
+    
+    "dependencies" => ["dep1","dep2"],
+    "removablefns" => [
+        ["access" => "public", "name" => "dummyname", "content" => "dummycontent"]
+    ],
+    "functions" => [
+<<<EOT
+public function test() {
+    \$test;
+}
+EOT
+    ],
+    "variables" => [
+        ["access" => "public", "name" => "varname"]
+    ]
+];
+```

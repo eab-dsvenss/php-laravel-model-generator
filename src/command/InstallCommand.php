@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Artisan;
 use se\eab\php\laravel\modelgenerator\provider\EabModelgeneratorServiceProvider;
 
-class EabModelgeneratorInstall extends Command
+class InstallCommand extends Command
 {
     /**
      * The name and signature of the console command.

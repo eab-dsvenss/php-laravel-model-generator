@@ -4,7 +4,7 @@ namespace se\eab\php\laravel\modelgenerator\provider;
 
 use Illuminate\Support\ServiceProvider;
 
-class EabModelgeneratorServiceProvider extends ServiceProvider
+class ModelGeneratorServiceProvider extends ServiceProvider
 {
 
     const CONFIG_FILENAME = "eab-modelgenconfig";

@@ -302,12 +302,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "94afff5f0a45fb3f422e475c3882e4e5b8e9395c"
+                "reference": "1693731410d6099ab83cbbf54d9fa1812e6c81dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/94afff5f0a45fb3f422e475c3882e4e5b8e9395c",
-                "reference": "94afff5f0a45fb3f422e475c3882e4e5b8e9395c",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/1693731410d6099ab83cbbf54d9fa1812e6c81dc",
+                "reference": "1693731410d6099ab83cbbf54d9fa1812e6c81dc",
                 "shasum": ""
             },
             "require": {
@@ -369,7 +369,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2018-03-17T09:07:34+00:00"
+            "time": "2018-03-24T19:27:25+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -548,12 +548,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/eab-dsvenss/php-classtailor.git",
-                "reference": "359bd35467fb27bae1d55200520e7f70e8cd0306"
+                "reference": "db16d92801d94ea2f05ba958a620cec59eecf262"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eab-dsvenss/php-classtailor/zipball/359bd35467fb27bae1d55200520e7f70e8cd0306",
-                "reference": "359bd35467fb27bae1d55200520e7f70e8cd0306",
+                "url": "https://api.github.com/repos/eab-dsvenss/php-classtailor/zipball/db16d92801d94ea2f05ba958a620cec59eecf262",
+                "reference": "db16d92801d94ea2f05ba958a620cec59eecf262",
                 "shasum": ""
             },
             "require": {
@@ -577,7 +577,7 @@
                 }
             ],
             "description": "Package for tailoring php classes from PHP scripts",
-            "time": "2018-03-12T13:55:04+00:00"
+            "time": "2018-03-25T11:34:50+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -1774,12 +1774,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "387f16c353275fca7e4e62533f6407a20e95e937"
+                "reference": "77479a3c32d585e3513affd7eabf8e5e2bc481ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/387f16c353275fca7e4e62533f6407a20e95e937",
-                "reference": "387f16c353275fca7e4e62533f6407a20e95e937",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/77479a3c32d585e3513affd7eabf8e5e2bc481ce",
+                "reference": "77479a3c32d585e3513affd7eabf8e5e2bc481ce",
                 "shasum": ""
             },
             "require": {
@@ -1852,7 +1852,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2018-03-23T09:18:50+00:00"
+            "time": "2018-03-23T15:48:06+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
