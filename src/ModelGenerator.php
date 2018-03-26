@@ -5,6 +5,7 @@ namespace se\eab\php\laravel\modelgenerator;
 use se\eab\php\laravel\modelgenerator\provider\ModelGeneratorServiceProvider;
 use se\eab\php\classtailor\ClassTailor;
 use se\eab\php\classtailor\factory\ClassFileFactory;
+use Artisan;
 
 /**
  * Description of ModelGenerator
