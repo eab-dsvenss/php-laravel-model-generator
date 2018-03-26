@@ -10,6 +10,7 @@ class ModelGeneratorServiceProvider extends ServiceProvider
 {
 
     const CONFIG_FILENAME = "eab-modelgenconfig";
+    const DUMMY_ADJUSTMENT_FILENAME = "Dummy.php";
     const MODEL_ADJUSTMENTS_FOLDERNAME = "eab-modelgenerator";
 
     private $basepath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
@@ -22,8 +23,8 @@ class ModelGeneratorServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            $this->basepath . "config" . DIRECTORY_SEPARATOR . ModelGeneratorServiceProvider::CONFIG_FILENAME . ".php" => config_path(ModelGeneratorServiceProvider::CONFIG_FILENAME . '.php'),
-            $this->basepath . "config" . DIRECTORY_SEPARATOR . ModelGeneratorServiceProvider::CONFIG_FILENAME . ".php" => config_path(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . 'Dummy.php')
+            $this->basepath . "config" . DIRECTORY_SEPARATOR . self::CONFIG_FILENAME . ".php" => config_path(self::CONFIG_FILENAME . '.php'),
+            $this->basepath . "config" . DIRECTORY_SEPARATOR . self::DUMMY_ADJUSTMENT_FILENAME => config_path(self::MODEL_ADJUSTMENTS_FOLDERNAME . DIRECTORY_SEPARATOR . self::DUMMY_ADJUSTMENT_FILENAME)
         ]);
         
         if ($this->app->runningInConsole()) {
