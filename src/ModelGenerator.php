@@ -17,7 +17,7 @@ class ModelGenerator
     private static $instance;
     private $classtailor;
 
-    private static function __construct()
+    private function __construct()
     {
         $this->classtailor = new ClassTailor();
     }

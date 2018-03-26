@@ -8,7 +8,7 @@
 
 return [
     // TODO fill with dummy data to show structure
-    "dependencies" => [],
+    "dependencies" => ["dep1"],
     "removablefns" => [],
     "functions" => [],
     "variables" => []
