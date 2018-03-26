@@ -50,12 +50,12 @@ class ModelGenerator
     private function generateModel($model, $outputpath, $namespace)
     {
         $modelname = $model['name'];
-        $options = [$modelname, "--output-path" => app_path($outputpath), "--namespace" => $namespace];
+        $options = ["--output-path" => app_path($outputpath), "--namespace" => $namespace];
 
         if (isset($model['table'])) {
             $options["--table-name"] = $model['table'];
         }
-        Artisan::call("krlove:generate:model", $options);
+        Artisan::call("krlove:generate:model $modelname", $options);
 
         $this->adjustModel($modelname, $outputpath);
     }
