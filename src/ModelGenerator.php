@@ -50,12 +50,15 @@ class ModelGenerator
     private function generateModel($model, $outputpath, $namespace)
     {
         $modelname = $model['name'];
-        $options = ["--output-path" => app_path($outputpath), "--namespace" => $namespace];
+        // Cannot pass key-less parameters to an artisan call. Fortunately the class-name key was a key that could be used.
+        // Discovered by looking at the error message thrown by the command when passed the wrong parameters
+        $options = ["class-name" => $modelname, "--output-path" => app_path($outputpath), "--namespace" => $namespace];
+
 
         if (isset($model['table'])) {
             $options["--table-name"] = $model['table'];
         }
-        Artisan::call("krlove:generate:model $modelname", $options);
+        Artisan::call("krlove:generate:model", $options);
 
         $this->adjustModel($modelname, $outputpath);
     }
@@ -65,7 +68,7 @@ class ModelGenerator
 
         if (file_exists(config_path(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . DIRECTORY_SEPARATOR . "$name.php"))) {
             $classfilearray = array_merge($adjustArray = config(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . ".$name")
-                , ["path" => $outputpath . DIRECTORY_SEPARATOR . "$name.php"]);
+                , ["path" => app_path($outputpath . DIRECTORY_SEPARATOR . "$name.php")]);
             $classfile = ClassFileFactory::getInstance()->createClassFileFromArray($classfilearray);
             $this->classtailor->tailorClass($classfile);
         }

@@ -2,7 +2,7 @@
 
 return [
     "namespace" => "App",
-    "path" => "",
+    "outputpath" => "model",
     "models" => [
         ["name" => "Dummy"]
     ]
