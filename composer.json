@@ -14,7 +14,8 @@
         }
     },
     "require": {
-        "eab-dsvenss/php-classtailor": "dev-master",
-        "krlove/eloquent-model-generator": "dev-master"
+        "krlove/eloquent-model-generator": "^1.2",
+        "eab-dsvenss/php-classtailor": "dev-master"
+
     }
 }
