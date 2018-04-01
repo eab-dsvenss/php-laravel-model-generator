@@ -63,3 +63,8 @@ EOT
     ]
 ];
 ```
+
+## Common Class Attributes 
+
+If there are attributes that should be present in all classes the following classname 
+should be used in the config folder: `EABCommon.php` and such attributes placed whithin that file.

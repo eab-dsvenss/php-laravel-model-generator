@@ -2,6 +2,7 @@
 
 namespace se\eab\php\laravel\modelgenerator;
 
+use se\eab\php\classtailor\model\ClassFile;
 use se\eab\php\laravel\modelgenerator\provider\ModelGeneratorServiceProvider;
 use se\eab\php\classtailor\ClassTailor;
 use se\eab\php\classtailor\factory\ClassFileFactory;
@@ -17,14 +18,20 @@ class ModelGenerator
 
     private static $instance;
     private $classtailor;
+    private $modelconfigbasedir;
+    /**
+     * @var ClassFile
+     */
+    private $commonclassfile;
 
     private function __construct()
     {
         $this->classtailor = new ClassTailor();
+        $this->modelconfigbasedir = ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . DIRECTORY_SEPARATOR;
     }
 
     /**
-     * 
+     *
      * @return ModelGenerator
      */
     public static function getInstance()
@@ -41,6 +48,8 @@ class ModelGenerator
         $models = config(ModelGeneratorServiceProvider::CONFIG_FILENAME . ".models");
         $namespace = config(ModelGeneratorServiceProvider::CONFIG_FILENAME . ".namespace");
         $outputpath = config(ModelGeneratorServiceProvider::CONFIG_FILENAME . ".outputpath");
+
+        $this->setCommonModel();
 
         foreach ($models as $model) {
             $this->generateModel($model, $outputpath, $namespace);
@@ -65,12 +74,23 @@ class ModelGenerator
 
     private function adjustModel($name, $outputpath)
     {
-
-        if (file_exists(config_path(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . DIRECTORY_SEPARATOR . "$name.php"))) {
+        $modelpath = app_path($outputpath . DIRECTORY_SEPARATOR . "$name.php");
+        if (file_exists(config_path($this->modelconfigbasedir . "$name.php"))) {
             $classfilearray = array_merge($adjustArray = config(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . ".$name")
-                , ["path" => app_path($outputpath . DIRECTORY_SEPARATOR . "$name.php")]);
+                , ["path" => $modelpath]);
             $classfile = ClassFileFactory::getInstance()->createClassFileFromArray($classfilearray);
+            $classfile->mergeClassFile($this->commonclassfile);
             $this->classtailor->tailorClass($classfile);
+        } else if (isset($this->commonclassfile)) {
+            $this->commonclassfile->setPath($modelpath);
+            $this->classtailor->tailorClass($this->commonclassfile);
+        }
+    }
+
+    private function setCommonModel()
+    {
+        if (file_exists($this->modelconfigbasedir . "EABCommon.php")) {
+            $this->commonclassfile = ClassFileFactory::getInstance()->createClassfileFromArray(config(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . ".EABCommon"));
         }
     }
 
