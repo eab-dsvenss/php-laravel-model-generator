@@ -4,6 +4,6 @@ return [
     "namespace" => "App",
     "outputpath" => "model",
     "models" => [
-        ["name" => "Dummy"]
+        ["name" => "Dummy", "table" => "DummyTable", "crud" => true]
     ]
 ];

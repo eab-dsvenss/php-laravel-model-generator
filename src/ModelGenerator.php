@@ -7,6 +7,8 @@ use se\eab\php\laravel\modelgenerator\provider\ModelGeneratorServiceProvider;
 use se\eab\php\classtailor\ClassTailor;
 use se\eab\php\classtailor\factory\ClassFileFactory;
 use Artisan;
+use se\eab\php\laravel\modelgenerator\config\ConfigHelper;
+use se\eab\php\classtailor\model\FileHandler;
 
 /**
  * Description of ModelGenerator
@@ -45,9 +47,9 @@ class ModelGenerator
 
     public function generateModels()
     {
-        $models = config(ModelGeneratorServiceProvider::CONFIG_FILENAME . ".models");
-        $namespace = config(ModelGeneratorServiceProvider::CONFIG_FILENAME . ".namespace");
-        $outputpath = config(ModelGeneratorServiceProvider::CONFIG_FILENAME . ".outputpath");
+        $models = ConfigHelper::getModels();
+        $namespace = ConfigHelper::getNamespace();
+        $outputpath = ConfigHelper::getOutputpath();
 
         $this->setCommonModel();
 
@@ -75,8 +77,8 @@ class ModelGenerator
     private function adjustModel($name, $outputpath)
     {
         $modelpath = app_path($outputpath . DIRECTORY_SEPARATOR . "$name.php");
-        if (file_exists(config_path($this->modelconfigbasedir . "$name.php"))) {
-            $classfilearray = array_merge($adjustArray = config(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . ".$name")
+        if (ConfigHelper::doesModelAdjustmentsExist($name)) {
+            $classfilearray = array_merge($adjustArray = ConfigHelper::getModelAdjustmentArray($name)
                 , ["path" => $modelpath]);
             $classfile = ClassFileFactory::getInstance()->createClassFileFromArray($classfilearray);
             $classfile->mergeClassFile($this->commonclassfile);
@@ -89,9 +91,19 @@ class ModelGenerator
 
     private function setCommonModel()
     {
-        if (file_exists($this->modelconfigbasedir . "EABCommon.php")) {
-            $this->commonclassfile = ClassFileFactory::getInstance()->createClassfileFromArray(config(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . ".EABCommon"));
+        if (ConfigHelper::doesModelAdjustmentsExist(ConfigHelper::COMMON_MODELNAME)) {
+            $this->commonclassfile = ClassFileFactory::getInstance()->createClassfileFromArray(ConfigHelper::getModelAdjustmentArray(ConfigHelper::COMMON_MODELNAME));
         }
     }
 
+    public function appendToCommonModel(ClassFile &$classfile) {
+        if (ConfigHelper::doesModelAdjustmentsExist(ConfigHelper::COMMON_MODELNAME)) {
+            $commonClassfile = ClassFileFactory::getInstance()->createClassfileFromArray(ConfigHelper::getModelAdjustmentArray(ConfigHelper::COMMON_MODELNAME));
+            $commonClassfile->mergeClassFile($classfile);
+        } else {
+            $commonClassfile = $classfile;
+        }
+
+        FileHandler::getInstance()->writeToFile(ConfigHelper::getAdjustmentsPath(ConfigHelper::COMMON_MODELNAME), print_r(ClassFileFactory::getInstance()->getArrayFromClassFile($commonClassfile)));
+    }
 }

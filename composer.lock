@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3faabbe7fe95b9dab81369d0f7ccc6f",
+    "content-hash": "61b25e3745b716e3eef85305bc5e864b",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -537,12 +537,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/eab-dsvenss/php-classtailor.git",
-                "reference": "f6436c3882a5f7ab249095345d03594d0c6520f3"
+                "reference": "413ffd90af073b18ec04bb2f75a71fe1ec1a1c2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eab-dsvenss/php-classtailor/zipball/f6436c3882a5f7ab249095345d03594d0c6520f3",
-                "reference": "f6436c3882a5f7ab249095345d03594d0c6520f3",
+                "url": "https://api.github.com/repos/eab-dsvenss/php-classtailor/zipball/413ffd90af073b18ec04bb2f75a71fe1ec1a1c2f",
+                "reference": "413ffd90af073b18ec04bb2f75a71fe1ec1a1c2f",
                 "shasum": ""
             },
             "require": {
@@ -566,7 +566,7 @@
                 }
             ],
             "description": "Package for tailoring php classes from PHP scripts",
-            "time": "2018-04-01T15:19:16+00:00"
+            "time": "2018-04-02T07:35:43+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -2320,7 +2320,7 @@
     "stability-flags": {
         "eab-dsvenss/php-classtailor": 20
     },
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
