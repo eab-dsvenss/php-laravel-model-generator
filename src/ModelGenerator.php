@@ -55,9 +55,9 @@ class ModelGenerator
 
     public function generateModels()
     {
-        $models = ModelGeneratorConfigHelper::getModels();
-        $namespace = ModelGeneratorConfigHelper::getNamespace();
-        $outputpath = ModelGeneratorConfigHelper::getOutputpath();
+        $models = ModelGeneratorConfigHelper::getInstance()->getModels();
+        $namespace = ModelGeneratorConfigHelper::getInstance()->getNamespace();
+        $outputpath = ModelGeneratorConfigHelper::getInstance()->getOutputpath();
 
         foreach ($models as $model) {
             $this->generateModel($model, $outputpath, $namespace);
@@ -85,8 +85,8 @@ class ModelGenerator
         $name = $model['name'];
         $modelpath = app_path($outputpath . DIRECTORY_SEPARATOR . "$name.php");
 
-        if (ModelGeneratorConfigHelper::doesModelAdjustmentsExist($name)) {
-            $classfilearray = array_merge($adjustArray = ModelGeneratorConfigHelper::getModelAdjustmentArray($name)
+        if (ModelGeneratorConfigHelper::getInstance()->doesModelAdjustmentsExist($name)) {
+            $classfilearray = array_merge($adjustArray = ModelGeneratorConfigHelper::getInstance()->getModelAdjustmentArray($name)
                 , [ClassFileFactory::PATH_KEY => $modelpath, ClassFileFactory::CLASSNAME_KEY => $name]);
             $classfile = ClassFileFactory::getInstance()->createClassFileFromArray($classfilearray);
             $this->mergeExtraModelAdjustments($classfile, $model);
@@ -113,8 +113,8 @@ class ModelGenerator
 
     private function initCommonClassFile()
     {
-        if (ModelGeneratorConfigHelper::doesModelAdjustmentsExist(ModelGeneratorConfigHelper::COMMON_MODELNAME)) {
-            $adjArray = array_merge(ModelGeneratorConfigHelper::getModelAdjustmentArray(ModelGeneratorConfigHelper::COMMON_MODELNAME), [ClassFileFactory::CLASSNAME_KEY => ModelGeneratorConfigHelper::COMMON_MODELNAME]);
+        if (ModelGeneratorConfigHelper::getInstance()->doesModelAdjustmentsExist(ModelGeneratorConfigHelper::getInstance()->COMMON_MODELNAME)) {
+            $adjArray = array_merge(ModelGeneratorConfigHelper::getInstance()->getModelAdjustmentArray(ModelGeneratorConfigHelper::getInstance()->COMMON_MODELNAME), [ClassFileFactory::CLASSNAME_KEY => ModelGeneratorConfigHelper::getInstance()->COMMON_MODELNAME]);
             $this->commonclassfile = ClassFileFactory::getInstance()->createClassfileFromArray($adjArray);
         }
     }
@@ -122,8 +122,8 @@ class ModelGenerator
     private function initExtraModelAdjustments()
     {
         $this->qualifiedExtraClassfiles = [];
-        foreach (ModelGeneratorConfigHelper::getExtrasFilenames() as $fname) {
-            $this->qualifiedExtraClassfiles[$fname] = ClassFileFActory::getInstance()->createClassfileFromArray(ModelGeneratorConfigHelper::getExtraModelAdjustmentArray($fname));
+        foreach (ModelGeneratorConfigHelper::getInstance()->getExtrasFilenames() as $fname) {
+            $this->qualifiedExtraClassfiles[$fname] = ClassFileFActory::getInstance()->createClassfileFromArray(ModelGeneratorConfigHelper::getInstance()->getExtraModelAdjustmentArray($fname));
         }
     }
 }

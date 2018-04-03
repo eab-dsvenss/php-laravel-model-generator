@@ -43,7 +43,7 @@ class ModelGeneratorTest extends \Codeception\Test\Unit
      * @throws Exception
      */
     private function setupMocks() {
-        $this->confighelper_mock = test::double(ModelGeneratorConfigHelper::class, [
+        $this->confighelper_mock = test::double(ModelGeneratorConfigHelper::getInstance()->class, [
             "getModels" => $this->models,
             "getNamespace" => $this->namespace,
             "getOutputpath" => $this->outputpath

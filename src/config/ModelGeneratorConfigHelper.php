@@ -9,6 +9,7 @@
 namespace se\eab\php\laravel\modelgenerator\config;
 
 use Illuminate\Http\File;
+use se\eab\php\classtailor\model\FileHandler;
 use se\eab\php\laravel\modelgenerator\ModelGenerator;
 use se\eab\php\laravel\modelgenerator\provider\ModelGeneratorServiceProvider;
 
@@ -23,30 +24,48 @@ class ModelGeneratorConfigHelper
     const OUTPUTPATH = "outputpath";
     const COMMON_MODELNAME = "EABCommon";
 
+
+    private $extrasfolder;
+
+    private static $instance;
+
+    private function __construct()
+    {
+        $this->extrasfolder = config_path(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . DIRECTORY_SEPARATOR . ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_EXTRAFOLDER);
+    }
+
+    public static function getInstance() {
+        if (!isset(self::$instance)) {
+            self::$instance = new ModelGeneratorConfigHelper();
+        }
+
+        return self::$instance;
+    }
+
     /**
      * @return array
      */
-    public static function getModels()
+    public function getModels()
     {
         return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::MODELS);
     }
 
-    public static function getNamespace()
+    public function getNamespace()
     {
         return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::NAMESPACE);
     }
 
-    public static function getOutputpath()
+    public function getOutputpath()
     {
         return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::OUTPUTPATH);
     }
 
-    public static function getModelAdjustmentArray($name)
+    public function getModelAdjustmentArray($name)
     {
         return config(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . ".$name");
     }
 
-    public static function getAdjustmentsPath($name = NULL)
+    public function getAdjustmentsPath($name = NULL)
     {
         $path = config(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME);
         if (isset($name)) {
@@ -56,21 +75,25 @@ class ModelGeneratorConfigHelper
         return $path;
     }
 
-    public static function doesModelAdjustmentsExist($name)
+    public function doesModelAdjustmentsExist($name)
     {
         return file_exists(config_path(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . DIRECTORY_SEPARATOR . "$name.php"));
     }
 
-    public static function getExtrasFilenames()
-    {
-        $basepath = ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . DIRECTORY_SEPARATOR . ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_EXTRAFOLDER;
 
-        $files = scandir($basepath);
+
+    public function getExtrasFilenames()
+    {
+        $files = scandir($this->extrasfolder);
         if ($files) {
-            return array_filter($files, function($item) use ($basepath) {
-                return !is_dir($basepath . DIRECTORY_SEPARATOR . $item);
+            return array_filter($files, function($item) {
+                return !is_dir($this->extrasfolder . DIRECTORY_SEPARATOR . $item);
             });
         }
         return [];
+    }
+
+    public function saveExtraModelAdjustmentsToFile(array $adjustments, $filename) {
+        FileHandler::getInstance()->writeToFile($this->extrasfolder . DIRECTORY_SEPARATOR . "$filename.php", print_r($adjustments));
     }
 }
