@@ -18,5 +18,9 @@
         "krlove/eloquent-model-generator": "^1.2",
         "eab-dsvenss/php-classtailor": "dev-master"
 
+    },
+    "require-dev": {
+        "codeception/codeception": "^2.4",
+        "codeception/aspect-mock": "*"
     }
 }

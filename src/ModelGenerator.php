@@ -21,15 +21,25 @@ class ModelGenerator
     private static $instance;
     private $classtailor;
     private $modelconfigbasedir;
+    private $qualifiers;
+
     /**
      * @var ClassFile
      */
     private $commonclassfile;
 
+    /**
+     * @var ClassFile[]
+     */
+    private $qualifiedExtraClassfiles;
+
     private function __construct()
     {
         $this->classtailor = new ClassTailor();
         $this->modelconfigbasedir = ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . DIRECTORY_SEPARATOR;
+        $this->initCommonClassFile();
+        $this->qualifiers = [];
+        $this->qualifiedExtraClassfiles = [];
     }
 
     /**
@@ -45,13 +55,12 @@ class ModelGenerator
         return self::$instance;
     }
 
-    public function generateModels()
+    public function generateModels(array $qualifiers)
     {
+        $this->qualifiers = $qualifiers;
         $models = ConfigHelper::getModels();
         $namespace = ConfigHelper::getNamespace();
         $outputpath = ConfigHelper::getOutputpath();
-
-        $this->setCommonModel();
 
         foreach ($models as $model) {
             $this->generateModel($model, $outputpath, $namespace);
@@ -71,39 +80,81 @@ class ModelGenerator
         }
         Artisan::call("krlove:generate:model", $options);
 
-        $this->adjustModel($modelname, $outputpath);
+        $this->adjustModel($model, $outputpath);
     }
 
-    private function adjustModel($name, $outputpath)
+    private function adjustModel(array $model, $outputpath)
     {
+        $name = $model['name'];
         $modelpath = app_path($outputpath . DIRECTORY_SEPARATOR . "$name.php");
+
         if (ConfigHelper::doesModelAdjustmentsExist($name)) {
             $classfilearray = array_merge($adjustArray = ConfigHelper::getModelAdjustmentArray($name)
-                , ["path" => $modelpath]);
+                , [ClassFileFactory::PATH_KEY => $modelpath, ClassFileFactory::CLASSNAME_KEY => $name]);
             $classfile = ClassFileFactory::getInstance()->createClassFileFromArray($classfilearray);
-            $classfile->mergeClassFile($this->commonclassfile);
-            $this->classtailor->tailorClass($classfile);
-        } else if (isset($this->commonclassfile)) {
-            $this->commonclassfile->setPath($modelpath);
-            $this->classtailor->tailorClass($this->commonclassfile);
+            $this->mergeExtraModelAdjustments($classfile, $model);
+        } else {
+            $classfile = ClassFileFactory::getInstance()->createClassfileFromArray([
+                ClassFileFactory::PATH_KEY => $modelpath,
+                ClassFileFactory::CLASSNAME_KEY => $name
+            ]);
+            $this->mergeExtraModelAdjustements($classfile, $model);
+        }
+
+        $this->classtailor->tailorClass($classfile);
+    }
+
+    private function mergeExtraModelAdjustements(ClassFile &$classfile, array &$model)
+    {
+        $classfile->mergeClassFile($this->commonclassfile);
+        foreach ($this->qualifiers as $q) {
+            if (isset($model[$q]) && $model[$q]) {
+                $classfile->mergeClassFile($this->qualifiedExtraClassfiles[$q]);
+            }
         }
     }
 
-    private function setCommonModel()
+    private function hasCommonClassFile()
+    {
+        return isset($this->commonclassfile);
+    }
+
+    private function initCommonClassFile()
     {
         if (ConfigHelper::doesModelAdjustmentsExist(ConfigHelper::COMMON_MODELNAME)) {
-            $this->commonclassfile = ClassFileFactory::getInstance()->createClassfileFromArray(ConfigHelper::getModelAdjustmentArray(ConfigHelper::COMMON_MODELNAME));
+            $adjArray = array_merge(ConfigHelper::getModelAdjustmentArray(ConfigHelper::COMMON_MODELNAME), [ClassFileFactory::CLASSNAME_KEY => ConfigHelper::COMMON_MODELNAME]);
+            $this->commonclassfile = ClassFileFactory::getInstance()->createClassfileFromArray($adjArray);
         }
     }
 
-    public function appendToCommonModel(ClassFile &$classfile) {
-        if (ConfigHelper::doesModelAdjustmentsExist(ConfigHelper::COMMON_MODELNAME)) {
-            $commonClassfile = ClassFileFactory::getInstance()->createClassfileFromArray(ConfigHelper::getModelAdjustmentArray(ConfigHelper::COMMON_MODELNAME));
-            $commonClassfile->mergeClassFile($classfile);
+    public function appendToCommonClassfile(ClassFile &$classfile)
+    {
+        if ($this->hasCommonClassFile()) {
+            $this->commonclassfile->mergeClassFile($classfile);
         } else {
-            $commonClassfile = $classfile;
+            $this->commonclassfile = $classfile;
+        }
+    }
+
+    public function appendToQualifiedExtraClassFile(ClassFile &$classfile, $qualifier)
+    {
+        if (isset($this->qualifiedExtraClassfiles[$qualifier])) {
+            $this->qualifiedExtraClassfiles[$qualifier]->mergeClassFile($classfile);
+        } else {
+            $this->qualifiedExtraClassfiles[$qualifier] = $classfile;
+        }
+    }
+
+    public function appendToModelAdjustmentsFile(ClassFile &$additions)
+    {
+        $classname = $additions->getClassName();
+        if (ConfigHelper::doesModelAdjustmentsExist($classname)) {
+            $classfile = ClassFileFactory::getInstance()->createClassfileFromArray(ConfigHelper::getModelAdjustmentArray($classname));
+            $classfile->mergeClassFile($additions);
+        } else {
+            $classfile = $additions;
         }
 
-        FileHandler::getInstance()->writeToFile(ConfigHelper::getAdjustmentsPath(ConfigHelper::COMMON_MODELNAME), print_r(ClassFileFactory::getInstance()->getArrayFromClassFile($commonClassfile)));
+        FileHandler::getInstance()->writeToFile(ConfigHelper::getAdjustmentsPath($classname), print_r(ClassFileFactory::getInstance()->getArrayFromClassFile($classfile)));
     }
 }
