@@ -54,7 +54,6 @@ class ModelGeneratorTest extends \Codeception\Test\Unit
     // tests
     public function testGenerateModels()
     {
-        $this->assertEquals( "test", ConfigHelper::getModels());
-
+        // TODO implement
     }
 }
