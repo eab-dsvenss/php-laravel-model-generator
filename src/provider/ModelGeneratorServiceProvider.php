@@ -9,9 +9,10 @@ use se\eab\php\laravel\modelgenerator\command\InstallCommand;
 class ModelGeneratorServiceProvider extends ServiceProvider
 {
 
-    const CONFIG_FILENAME = "eab-modelgenconfig";
+    const CONFIG_FILENAME = "eab-modelgeneratorconfig";
     const DUMMY_ADJUSTMENT_FILENAME = "Dummy.php";
     const MODEL_ADJUSTMENTS_FOLDERNAME = "eab-modelgenerator";
+    const MODEL_ADJUSTMENTS_EXTRAFOLDER = "extras";
 
     private $basepath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
 
@@ -42,7 +43,7 @@ class ModelGeneratorServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // It is essential to check that a class exists if there is a possibility that it does not. Othe rwise errors will be triggered
+        // It is essential to check that a class exists if there is a possibility that it does not. Otherwise errors will be triggered
         if (class_exists("Krlove\EloquentModelGenerator\Provider\GeneratorServiceProvider")) {
             $this->app->register('Krlove\EloquentModelGenerator\Provider\GeneratorServiceProvider');
         }

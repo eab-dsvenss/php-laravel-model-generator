@@ -1,6 +1,6 @@
 <?php
 
-use se\eab\php\laravel\modelgenerator\config\ConfigHelper;
+use se\eab\php\laravel\modelgenerator\config\ModelGeneratorConfigHelper;
 
 use AspectMock\Test as test;
 
@@ -43,7 +43,7 @@ class ModelGeneratorTest extends \Codeception\Test\Unit
      * @throws Exception
      */
     private function setupMocks() {
-        $this->confighelper_mock = test::double(ConfigHelper::class, [
+        $this->confighelper_mock = test::double(ModelGeneratorConfigHelper::class, [
             "getModels" => $this->models,
             "getNamespace" => $this->namespace,
             "getOutputpath" => $this->outputpath
