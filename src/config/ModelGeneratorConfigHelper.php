@@ -94,6 +94,6 @@ class ModelGeneratorConfigHelper
     }
 
     public function saveExtraModelAdjustmentsToFile(array $adjustments, $filename) {
-        FileHandler::getInstance()->writeToFile($this->extrasfolder . DIRECTORY_SEPARATOR . "$filename.php", print_r($adjustments));
+        FileHandler::getInstance()->writeToFile($this->extrasfolder . DIRECTORY_SEPARATOR . "$filename.php", "return " . print_r($adjustments, true));
     }
 }
