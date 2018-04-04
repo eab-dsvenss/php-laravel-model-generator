@@ -113,9 +113,8 @@ class ModelGenerator
 
     private function initCommonClassFile()
     {
-        if (ModelGeneratorConfigHelper::getInstance()->doesModelAdjustmentsExist(ModelGeneratorConfigHelper::getInstance()->COMMON_MODELNAME)) {
-            $adjArray = array_merge(ModelGeneratorConfigHelper::getInstance()->getModelAdjustmentArray(ModelGeneratorConfigHelper::getInstance()->COMMON_MODELNAME), [ClassFileFactory::CLASSNAME_KEY => ModelGeneratorConfigHelper::getInstance()->COMMON_MODELNAME]);
-            $this->commonclassfile = ClassFileFactory::getInstance()->createClassfileFromArray($adjArray);
+        if (ModelGeneratorConfigHelper::getInstance()->doesModelAdjustmentsExist(ModelGeneratorConfigHelper::COMMON_MODELNAME)) {
+            $this->commonclassfile = ClassFileFactory::getInstance()->createClassfileFromArray(ModelGeneratorConfigHelper::getInstance()->getModelAdjustmentArray(ModelGeneratorConfigHelper::COMMON_MODELNAME));
         }
     }
 
