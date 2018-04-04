@@ -98,6 +98,13 @@ class ModelGeneratorConfigHelper
                 Log::warning("Could not create folder " . $this->extrasfolder);
             }
         }
-        FileHandler::getInstance()->writeToFile($this->extrasfolder . DIRECTORY_SEPARATOR . "$filename.php", "return " . print_r($adjustments, true));
+
+        $adjustmentsstr = var_export($adjustments, true);
+        $filecontent = <<<EOT
+<?php
+return $adjustmentsstr;
+EOT;
+
+        FileHandler::getInstance()->writeToFile($this->extrasfolder . DIRECTORY_SEPARATOR . "$filename.php", $filecontent);
     }
 }
