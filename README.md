@@ -22,7 +22,7 @@ php artisan eab-modelgenerator:install
 
 # Usage
 
-Specify models to generate in `eab-modelgenconfig`
+Specify models to generate in `eab-modelgeneratorconfig`
 
 Call `php artisan eab-modelgenerator:generate` to generate the models specified in the config file
 
@@ -37,7 +37,7 @@ return [
     "namespace" => "App",
     "outputpath" => "model",
     "models" => [
-        ["name" => "Dummy", <"table" => "DummyTable">]
+        ["name" => "Dummy", <"table" => "DummyTable">, <"extras" => ["crud", "translatable"]>]
     ]
 ];
 ```
