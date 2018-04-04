@@ -11,6 +11,7 @@ namespace se\eab\php\laravel\modelgenerator\config;
 use se\eab\php\classtailor\model\FileHandler;
 use se\eab\php\laravel\modelgenerator\provider\ModelGeneratorServiceProvider;
 use Log;
+use se\eab\php\laravel\util\misc\ArrayStringBuilder;
 
 class ModelGeneratorConfigHelper
 {
@@ -99,7 +100,7 @@ class ModelGeneratorConfigHelper
             }
         }
 
-        $adjustmentsstr = var_export($adjustments, true);
+        $adjustmentsstr = ArrayStringBuilder::getInstance()->arrayToString($adjustments);
         $filecontent = <<<EOT
 <?php
 return $adjustmentsstr;

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4fb761240b0d51b15cfb8b8e1f1542d",
+    "content-hash": "43501c31ca3b3efbe2e8fd24e2abbc72",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -569,6 +569,38 @@
             ],
             "description": "Package for tailoring php classes from PHP scripts",
             "time": "2018-04-04T13:02:50+00:00"
+        },
+        {
+            "name": "eab-dsvenss/php-laravel-util",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eab-dsvenss/php-laravel-util.git",
+                "reference": "bf169612194a10ba96b5a8639437b70bd3e18d72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eab-dsvenss/php-laravel-util/zipball/bf169612194a10ba96b5a8639437b70bd3e18d72",
+                "reference": "bf169612194a10ba96b5a8639437b70bd3e18d72",
+                "shasum": ""
+            },
+            "require-dev": {
+                "codeception/codeception": "^2.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "se\\eab\\php\\laravel\\util\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Daniel Svensson"
+                }
+            ],
+            "description": "PHP Util classes",
+            "time": "2018-04-04T16:21:42+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -4725,7 +4757,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "eab-dsvenss/php-classtailor": 20
+        "eab-dsvenss/php-classtailor": 20,
+        "eab-dsvenss/php-laravel-util": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
