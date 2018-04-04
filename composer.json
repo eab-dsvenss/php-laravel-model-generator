@@ -16,8 +16,8 @@
     },
     "require": {
         "krlove/eloquent-model-generator": "^1.2",
-        "eab-dsvenss/php-classtailor": "dev-master"
-
+        "eab-dsvenss/php-classtailor": "dev-master",
+        "laravel/framework": "^5.5"
     },
     "require-dev": {
         "codeception/codeception": "^2.4",
