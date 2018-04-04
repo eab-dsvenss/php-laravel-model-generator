@@ -8,10 +8,9 @@
 
 namespace se\eab\php\laravel\modelgenerator\config;
 
-use Illuminate\Http\File;
 use se\eab\php\classtailor\model\FileHandler;
-use se\eab\php\laravel\modelgenerator\ModelGenerator;
 use se\eab\php\laravel\modelgenerator\provider\ModelGeneratorServiceProvider;
+use Log;
 
 class ModelGeneratorConfigHelper
 {
@@ -94,6 +93,11 @@ class ModelGeneratorConfigHelper
     }
 
     public function saveExtraModelAdjustmentsToFile(array $adjustments, $filename) {
+        if (!file_exists($this->extrasfolder)) {
+            if(!mkdir($this->extrasfolder)) {
+                Log::warning("Could not create folder " . $this->extrasfolder);
+            }
+        }
         FileHandler::getInstance()->writeToFile($this->extrasfolder . DIRECTORY_SEPARATOR . "$filename.php", "return " . print_r($adjustments, true));
     }
 }

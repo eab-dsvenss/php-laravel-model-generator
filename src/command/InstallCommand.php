@@ -39,6 +39,6 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        Artisan::call("vendor:publish", ['--provider' => ModelGeneratorServiceProvider::class]);
+        $this->call("vendor:publish", ['--provider' => ModelGeneratorServiceProvider::class]);
     }
 }
