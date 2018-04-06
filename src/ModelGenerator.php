@@ -121,8 +121,8 @@ class ModelGenerator
     private function initExtraModelAdjustments()
     {
         $this->qualifiedExtraClassfiles = [];
-        foreach (ModelGeneratorConfigHelper::getInstance()->getExtrasFilenames() as $fname) {
-            $this->qualifiedExtraClassfiles[$fname] = ClassFileFActory::getInstance()->createClassfileFromArray(ModelGeneratorConfigHelper::getInstance()->getExtraModelAdjustmentArray($fname));
+        foreach (ModelGeneratorConfigHelper::getInstance()->getExtrasFilenames() as $filename) {
+            $this->qualifiedExtraClassfiles[$filename] = ClassFileFActory::getInstance()->createClassfileFromArray(ModelGeneratorConfigHelper::getInstance()->getExtraModelAdjustmentArray($filename));
         }
     }
 }

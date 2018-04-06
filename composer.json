@@ -15,6 +15,7 @@
         }
     },
     "require": {
+        "php": ">=7.1.0",
         "krlove/eloquent-model-generator": "^1.2",
         "eab-dsvenss/php-classtailor": "dev-master",
         "laravel/framework": "^5.5",

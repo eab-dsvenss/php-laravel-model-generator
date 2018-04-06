@@ -34,7 +34,8 @@ class ModelGeneratorConfigHelper
         $this->extrasfolder = config_path(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . DIRECTORY_SEPARATOR . ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_EXTRAFOLDER);
     }
 
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (!isset(self::$instance)) {
             self::$instance = new ModelGeneratorConfigHelper();
         }
@@ -65,6 +66,11 @@ class ModelGeneratorConfigHelper
         return config(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . ".$name");
     }
 
+    public function getExtraModelAdjustmentArray($name)
+    {
+        return config(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . "." . ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_EXTRAFOLDER . ".$name");
+    }
+
     public function getAdjustmentsPath($name = NULL)
     {
         $path = config(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME);
@@ -81,21 +87,21 @@ class ModelGeneratorConfigHelper
     }
 
 
-
     public function getExtrasFilenames()
     {
         $files = scandir($this->extrasfolder);
         if ($files) {
-            return array_filter($files, function($item) {
+            return array_filter($files, function ($item) {
                 return !is_dir($this->extrasfolder . DIRECTORY_SEPARATOR . $item);
             });
         }
         return [];
     }
 
-    public function saveExtraModelAdjustmentsToFile(array $adjustments, $filename) {
+    public function saveExtraModelAdjustmentsToFile(array $adjustments, $filename)
+    {
         if (!file_exists($this->extrasfolder)) {
-            if(!mkdir($this->extrasfolder)) {
+            if (!mkdir($this->extrasfolder)) {
                 Log::warning("Could not create folder " . $this->extrasfolder);
             }
         }
@@ -106,6 +112,8 @@ class ModelGeneratorConfigHelper
 return $adjustmentsstr;
 EOT;
 
-        FileHandler::getInstance()->writeToFile($this->extrasfolder . DIRECTORY_SEPARATOR . "$filename.php", $filecontent);
+        return FileHandler::getInstance()->writeToFile($this->extrasfolder . DIRECTORY_SEPARATOR . "$filename.php", $filecontent);
     }
+
+
 }
