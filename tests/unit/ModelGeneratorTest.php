@@ -27,17 +27,18 @@ class ModelGeneratorTest extends \Codeception\Test\Unit
      */
     protected function _before()
     {
+        //parent::_before();
         $this->setupData();
         $this->setupMocks();
     }
 
     protected function _after()
     {
+        //parent::_after();
     }
 
     private function setupData()
     {
-        $this->modelgen = ModelGenerator::getInstance();
         $this->models = [
             ["name" => "Dummy", "table" => "DummyTable1", "extras" => ["extra1"]],
             ["name" => "Dummy2", "table" => "DummyTable2"],
@@ -64,17 +65,22 @@ class ModelGeneratorTest extends \Codeception\Test\Unit
      */
     private function setupMocks()
     {
-        test::func('se\eab\php\laravel\modelgenerator', "app_path", "path");
-        test::double('Artisan', ["call" => true]);
+        $commonadjustments = $this->commonadjustments;
+        $adjustments = $this->adjustments;
+        $extraadjustments = $this->extraadjustments;
+        test::func("se\\eab\\php\\laravel\\modelgenerator", "app_path", "path");
+        test::func("se\\eab\\php\\laravel\\modelgenerator\\config", "config_path", "path");
+        test::func('se\eab\php\laravel\modelgenerator\config', "file_exists", true);
+        test::double('Illuminate\Support\Facades\Artisan', ["call" => true]);
         $this->confighelper_mock = test::double(ModelGeneratorConfigHelper::class, [
             "getModels" => $this->models,
             "getNamespace" => $this->namespace,
             "getOutputpath" => $this->outputpath,
-            "getModelAdjustmentArray" => function ($name) {
+            "getModelAdjustmentArray" => function ($name) use ($commonadjustments, $adjustments) {
                 if ($name == ModelGeneratorConfigHelper::COMMON_MODELNAME) {
-                    return $this->commonadjustments;
+                    return $commonadjustments;
                 } else {
-                    return $this->adjustments;
+                    return $adjustments;
                 }
             },
             "getExtrasFilenames" => ["extra1"],
@@ -87,8 +93,8 @@ class ModelGeneratorTest extends \Codeception\Test\Unit
                     return true;
                 }
             },
-            "getExtraModelAdjustmentArray" => function ($name) {
-                return $this->extraadjustments;
+            "getExtraModelAdjustmentArray" => function ($name) use ($extraadjustments) {
+                return $extraadjustments;
 
             }
         ]);
@@ -99,11 +105,14 @@ class ModelGeneratorTest extends \Codeception\Test\Unit
             'getModelAdjustmentArray',
             'getExtrasFilenames',
             'doesModelAdjustmentsExist',
-            "getExtraModelAdjustmentArray"
+            "getExtraModelAdjustmentArray",
+            "getInstance"
         ]);
         test::double(ClassTailor::class, [
             "tailorClass", true
         ]);
+
+        $this->modelgen = ModelGenerator::getInstance();
     }
 
     // tests
