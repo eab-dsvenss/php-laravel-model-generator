@@ -14,6 +14,9 @@ class ModelGeneratorTest extends \Codeception\Test\Unit
     protected $tester;
 
     private $confighelper_mock;
+    private $artisanmock;
+    private $facademock;
+
     private $modelgen;
     private $models;
     private $namespace;
@@ -65,13 +68,20 @@ class ModelGeneratorTest extends \Codeception\Test\Unit
      */
     private function setupMocks()
     {
+        class_alias("Illuminate\\Support\\Facades\\Artisan", "Artisan");
         $commonadjustments = $this->commonadjustments;
         $adjustments = $this->adjustments;
         $extraadjustments = $this->extraadjustments;
+
         test::func("se\\eab\\php\\laravel\\modelgenerator", "app_path", "path");
+
         test::func("se\\eab\\php\\laravel\\modelgenerator\\config", "config_path", "path");
+
         test::func('se\eab\php\laravel\modelgenerator\config', "file_exists", true);
-        test::double('Illuminate\Support\Facades\Artisan', ["call" => true]);
+
+        $this->facademock = test::double("Illuminate\Support\Facades\Artisan", ["getFacadeRoot" => "Test", "call" => "test", "__callstatic" => "stat"]);
+        test::methods($this->facademock, ['getFacadeRoot', "call", "__callstatic"]);
+
         $this->confighelper_mock = test::double(ModelGeneratorConfigHelper::class, [
             "getModels" => $this->models,
             "getNamespace" => $this->namespace,
@@ -108,8 +118,9 @@ class ModelGeneratorTest extends \Codeception\Test\Unit
             "getExtraModelAdjustmentArray",
             "getInstance"
         ]);
+
         test::double(ClassTailor::class, [
-            "tailorClass", true
+            "tailorClass" => true
         ]);
 
         $this->modelgen = ModelGenerator::getInstance();
@@ -118,6 +129,7 @@ class ModelGeneratorTest extends \Codeception\Test\Unit
     // tests
     public function testGenerateModels()
     {
+        // CONTINUE
         ModelGenerator::getInstance()->generateModels();
         $this->assertTrue(true);
     }

@@ -13,3 +13,8 @@ settings:
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
+#modules:
+#   enabled:
+#        - Laravel5:
+#              environment_file: .env
+#              root: laravelenv/

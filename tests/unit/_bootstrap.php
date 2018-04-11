@@ -9,6 +9,7 @@
 $kernel = \AspectMock\Kernel::getInstance();
 $kernel->init([
     'debug' => true,
-    'includePaths' => [__DIR__.'/../../src'],
+    'includePaths' => [__DIR__.'/../../src', __DIR__ . "/../../vendor/laravel/framework/src",
+        __DIR__ . "/../../vendor/eab-dsvenss/php-classtailor/src"],
     'cacheDir'  => '/tmp/php-laravel-model-generator',
 ]);

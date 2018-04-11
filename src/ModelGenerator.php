@@ -8,7 +8,6 @@ use se\eab\php\classtailor\ClassTailor;
 use se\eab\php\classtailor\factory\ClassFileFactory;
 use Artisan;
 use se\eab\php\laravel\modelgenerator\config\ModelGeneratorConfigHelper;
-use se\eab\php\classtailor\model\FileHandler;
 
 /**
  * Description of ModelGenerator
@@ -71,10 +70,10 @@ class ModelGenerator
         // Discovered by looking at the error message thrown by the command when passed the wrong parameters
         $options = ["class-name" => $modelname, "--output-path" => app_path($outputpath), "--namespace" => $namespace];
 
-
         if (isset($model['table'])) {
             $options["--table-name"] = $model['table'];
         }
+
         Artisan::call("krlove:generate:model", $options);
 
         $this->adjustModel($model, $outputpath);
@@ -87,13 +86,12 @@ class ModelGenerator
 
         if (ModelGeneratorConfigHelper::getInstance()->doesModelAdjustmentsExist($name)) {
             $classfilearray = array_merge($adjustArray = ModelGeneratorConfigHelper::getInstance()->getModelAdjustmentArray($name)
-                , [ClassFileFactory::PATH_KEY => $modelpath, ClassFileFactory::CLASSNAME_KEY => $name]);
+                , [ClassFileFactory::PATH_KEY => $modelpath]);
             $classfile = ClassFileFactory::getInstance()->createClassFileFromArray($classfilearray);
             $this->mergeExtraModelAdjustments($classfile, $model);
         } else {
             $classfile = ClassFileFactory::getInstance()->createClassfileFromArray([
-                ClassFileFactory::PATH_KEY => $modelpath,
-                ClassFileFactory::CLASSNAME_KEY => $name
+                ClassFileFactory::PATH_KEY => $modelpath
             ]);
             $this->mergeExtraModelAdjustments($classfile, $model);
         }
