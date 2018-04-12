@@ -17,7 +17,6 @@ class ModelGeneratorConfigHelper
 {
 
     const MODELTABLE_KEY = "table";
-    const CRUD_KEY = "crud";
     const MODELNAME_KEY = "name";
     const MODELS_KEY = "models";
     const NAMESPACE_KEY = "namespace";
