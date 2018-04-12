@@ -16,12 +16,12 @@ use se\eab\php\laravel\util\misc\ArrayStringBuilder;
 class ModelGeneratorConfigHelper
 {
 
-    const MODELTABLE = "table";
-    const CRUD = "crud";
-    const MODELNAME = "name";
-    const MODELS = "models";
-    const NAMESPACE = "namespace";
-    const OUTPUTPATH = "outputpath";
+    const MODELTABLE_KEY = "table";
+    const CRUD_KEY = "crud";
+    const MODELNAME_KEY = "name";
+    const MODELS_KEY = "models";
+    const NAMESPACE_KEY = "namespace";
+    const OUTPUTPATH_KEY = "outputpath";
     const COMMON_MODELNAME = "EABCommon";
 
 
@@ -48,17 +48,17 @@ class ModelGeneratorConfigHelper
      */
     public function getModels()
     {
-        return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::MODELS);
+        return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::MODELS_KEY);
     }
 
     public function getNamespace()
     {
-        return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::NAMESPACE);
+        return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::NAMESPACE_KEY);
     }
 
     public function getOutputpath()
     {
-        return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::OUTPUTPATH);
+        return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::OUTPUTPATH_KEY);
     }
 
     public function getModelAdjustmentArray($name)
