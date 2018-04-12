@@ -23,6 +23,7 @@ class ModelGeneratorConfigHelper
     const NAMESPACE_KEY = "namespace";
     const OUTPUTPATH_KEY = "outputpath";
     const COMMON_MODELNAME = "EABCommon";
+    const MODELEXTRAS_KEY = "extras";
 
 
     private $extrasfolder;
@@ -79,6 +80,11 @@ class ModelGeneratorConfigHelper
         }
 
         return $path;
+    }
+
+    public function hasExtrasQualifier(array $model, $qualifier)
+    {
+       return isset($model[ModelGeneratorConfigHelper::MODELEXTRAS_KEY]) && in_array($qualifier, $model[ModelGeneratorConfigHelper::MODELEXTRAS_KEY]);
     }
 
     public function doesModelAdjustmentsExist($name)

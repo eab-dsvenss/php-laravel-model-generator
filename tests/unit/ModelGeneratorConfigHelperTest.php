@@ -14,10 +14,12 @@ class ModelGeneratorConfigHelperTest extends \Codeception\Test\Unit
 
     protected function _before()
     {
+        parent::_before();
     }
 
     protected function _after()
     {
+        parent::_after();
     }
 
     private function setupMocks()
@@ -127,6 +129,14 @@ class ModelGeneratorConfigHelperTest extends \Codeception\Test\Unit
             }
         }
 
+    }
+
+    public function testHasExtrasQualifier()
+    {
+        $model = [ModelGeneratorConfigHelper::MODELEXTRAS_KEY => ["test", "tjena"]];
+
+        $this->assertTrue(ModelGeneratorConfigHelper::getInstance()->hasExtrasQualifier($model, "tjena"));
+        $this->assertFalse(ModelGeneratorConfigHelper::getInstance()->hasExtrasQualifier($model, "knas"));
     }
 
     public function testSaveExtraModelAdjustmentsToFile()
