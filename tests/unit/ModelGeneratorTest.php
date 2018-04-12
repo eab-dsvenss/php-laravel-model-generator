@@ -129,7 +129,6 @@ class ModelGeneratorTest extends \Codeception\Test\Unit
     // tests
     public function testGenerateModels()
     {
-        // CONTINUE
         ModelGenerator::getInstance()->generateModels();
         $this->assertTrue(true);
     }
