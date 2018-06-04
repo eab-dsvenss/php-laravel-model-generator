@@ -24,6 +24,8 @@ class ModelGeneratorConfigHelper
     const OUTPUTPATH_KEY = "outputpath";
     const COMMON_MODELNAME = "EABCommon";
     const MODELEXTRAS_KEY = "extras";
+    const LIB_RELIESE = "reliese";
+    const LIB_KRLOVE = "krlove";
 
 
     private $extrasfolder;
@@ -70,6 +72,10 @@ class ModelGeneratorConfigHelper
     public function getExtraModelAdjustmentArray($name)
     {
         return config(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . "." . ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_EXTRAFOLDER . ".$name");
+    }
+
+    public function getOutputpathToModel($name) {
+        return app_path(ModelGeneratorConfigHelper::getInstance()->getOutputpath() . DIRECTORY_SEPARATOR . "$name.php");
     }
 
     public function getAdjustmentsPath($name = null)

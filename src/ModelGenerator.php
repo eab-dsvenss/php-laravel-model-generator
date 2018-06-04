@@ -3,6 +3,7 @@
 namespace se\eab\php\laravel\modelgenerator;
 
 use se\eab\php\classtailor\model\ClassFile;
+use se\eab\php\classtailor\model\content\VariableContent;
 use se\eab\php\laravel\modelgenerator\provider\ModelGeneratorServiceProvider;
 use se\eab\php\classtailor\ClassTailor;
 use se\eab\php\classtailor\factory\ClassFileFactory;
@@ -67,7 +68,7 @@ class ModelGenerator
     {
         $lib = ModelGeneratorConfigHelper::getInstance()->getLibrary();
         switch ($lib) {
-            case "krlove":
+            case ModelGeneratorConfigHelper::LIB_KRLOVE:
                 $modelname = $model[ModelGeneratorConfigHelper::MODELNAME_KEY];
                 // Cannot pass key-less parameters to an artisan call. Fortunately the class-name key was a key that could be used.
                 // Discovered by looking at the error message thrown by the command when passed the wrong parameters
@@ -79,14 +80,12 @@ class ModelGenerator
 
                 Artisan::call("krlove:generate:model", $options);
                 break;
-            case "reliese":
+            case ModelGeneratorConfigHelper::LIB_RELIESE:
+            default:
                 $options = [
                   "--table" => isset($model[ModelGeneratorConfigHelper::MODELTABLE_KEY]) ? $model[ModelGeneratorConfigHelper::MODELTABLE_KEY] : strtolower($model[ModelGeneratorConfigHelper::MODELNAME_KEY]) . "s"
                 ];
                 Artisan::call("code:models", $options);
-                break;
-            default:
-
                 break;
         }
 
@@ -94,24 +93,43 @@ class ModelGenerator
         $this->adjustModel($model);
     }
 
-    private function adjustModel(array $model)
+    private function adjustModel(array $modelArray)
     {
-        $name = $model[ModelGeneratorConfigHelper::MODELNAME_KEY];
-        $modelpath = app_path(ModelGeneratorConfigHelper::getInstance()->getOutputpath() . DIRECTORY_SEPARATOR . "$name.php");
+        $name = $modelArray[ModelGeneratorConfigHelper::MODELNAME_KEY];
 
         if (ModelGeneratorConfigHelper::getInstance()->doesModelAdjustmentsExist($name)) {
-            $classfilearray = array_merge($adjustArray = ModelGeneratorConfigHelper::getInstance()->getModelAdjustmentArray($name)
-              , [ClassFileFactory::PATH_KEY => $modelpath]);
-            $classfile = ClassFileFactory::getInstance()->createClassFileFromArray($classfilearray);
-            $this->mergeExtraModelAdjustments($classfile, $model);
+            $classfile = $this->handleExistingModelAdjustment($modelArray);
         } else {
-            $classfile = ClassFileFactory::getInstance()->createClassfileFromArray([
-              ClassFileFactory::PATH_KEY => $modelpath
-            ]);
-            $this->mergeExtraModelAdjustments($classfile, $model);
+            $classfile = $this->handleNonExistentModelAdjustment($modelArray);
         }
 
+        RelieseHelper::getInstance()->adjustClassfileForReliese($classfile, $modelArray);
+
         $this->classtailor->tailorClass($classfile);
+    }
+
+    private function handleExistingModelAdjustment(array $model) {
+        $name = $model[ModelGeneratorConfigHelper::MODELNAME_KEY];
+        $modelpath = ModelGeneratorConfigHelper::getInstance()->getOutputpathToModel($name);
+
+        $classfilearray = array_merge($adjustArray = ModelGeneratorConfigHelper::getInstance()->getModelAdjustmentArray($name)
+          , [ClassFileFactory::PATH_KEY => $modelpath]);
+        $classfile = ClassFileFactory::getInstance()->createClassFileFromArray($classfilearray);
+        $this->mergeExtraModelAdjustments($classfile, $model);
+
+        return $classfile;
+    }
+
+    private function handleNonExistentModelAdjustment($model) {
+        $name = $model[ModelGeneratorConfigHelper::MODELNAME_KEY];
+        $modelpath = ModelGeneratorConfigHelper::getInstance()->getOutputpathToModel($name);
+
+        $classfile = ClassFileFactory::getInstance()->createClassfileFromArray([
+          ClassFileFactory::PATH_KEY => $modelpath
+        ]);
+        $this->mergeExtraModelAdjustments($classfile, $model);
+
+        return $classfile;
     }
 
     private function mergeExtraModelAdjustments(ClassFile &$classfile, array &$model)
