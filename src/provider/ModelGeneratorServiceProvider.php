@@ -44,8 +44,8 @@ class ModelGeneratorServiceProvider extends ServiceProvider
     public function register()
     {
         // It is essential to check that a class exists if there is a possibility that it does not. Otherwise errors will be triggered
-        if (class_exists("Krlove\EloquentModelGenerator\Provider\GeneratorServiceProvider")) {
-            $this->app->register('Krlove\EloquentModelGenerator\Provider\GeneratorServiceProvider');
+        if (class_exists("Krlove\\EloquentModelGenerator\\Provider\\GeneratorServiceProvider")) {
+            $this->app->register('Krlove\\EloquentModelGenerator\\Provider\\GeneratorServiceProvider');
         }
     }
 
