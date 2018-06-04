@@ -51,6 +51,14 @@ class ModelGeneratorServiceProvider extends ServiceProvider
         if (class_exists("\\Reliese\\Coders\\CodersServiceProvider")) {
             $this->app->register("\\Reliese\\Coders\\CodersServiceProvider");
         }
+
+        if (class_exists("Way\Generators\GeneratorsServiceProvider") &&
+          class_exists("Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider") &&
+          class_exists("User11001\EloquentModelGenerator\EloquentModelGeneratorProvider")) {
+            $this->app->register("Way\Generators\GeneratorsServiceProvider");
+            $this->app->register("Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider");
+            $this->app->register("User11001\EloquentModelGenerator\EloquentModelGeneratorProvider");
+        }
     }
 
 }

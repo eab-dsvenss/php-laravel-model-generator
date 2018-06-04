@@ -26,6 +26,7 @@ class ModelGeneratorConfigHelper
     const MODELEXTRAS_KEY = "extras";
     const LIB_RELIESE = "reliese";
     const LIB_KRLOVE = "krlove";
+    const LIB_PEPIJ = "pepij";
 
 
     private $extrasfolder;
@@ -59,7 +60,12 @@ class ModelGeneratorConfigHelper
         return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::LIB_KEY);
     }
 
-    public function getOutputpath()
+    public function getNamespace()
+    {
+        return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::NAMESPACE_KEY);
+    }
+
+    public function getOutputpathFromConfig()
     {
         return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::OUTPUTPATH_KEY);
     }
@@ -75,7 +81,7 @@ class ModelGeneratorConfigHelper
     }
 
     public function getOutputpathToModel($name) {
-        return app_path(ModelGeneratorConfigHelper::getInstance()->getOutputpath() . DIRECTORY_SEPARATOR . "$name.php");
+        return app_path(ModelGeneratorConfigHelper::getInstance()->getOutputpathFromConfig() . DIRECTORY_SEPARATOR . "$name.php");
     }
 
     public function getAdjustmentsPath($name = null)

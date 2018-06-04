@@ -54,7 +54,7 @@ class ModelGeneratorConfigHelperTest extends \Codeception\Test\Unit
         $outputpath = "outputpath";
         $this->setConfigMock($outputpath);
 
-        $actualoutputpath = ModelGeneratorConfigHelper::getInstance()->getOutputpath();
+        $actualoutputpath = ModelGeneratorConfigHelper::getInstance()->getOutputpathFromConfig();
         $this->assertEquals($outputpath, $actualoutputpath);
     }
 

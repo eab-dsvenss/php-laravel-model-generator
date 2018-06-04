@@ -59,6 +59,17 @@ class ModelGenerator
 
         $models = ModelGeneratorConfigHelper::getInstance()->getModels();
 
+        $lib = ModelGeneratorConfigHelper::getInstance()->getLibrary();
+
+
+        if ($lib == ModelGeneratorConfigHelper::LIB_PEPIJ) {
+            Artisan::call("models:generate", [
+              "--path" => app_path(ModelGeneratorConfigHelper::getInstance()->getOutputpathFromConfig()),
+              "--namespace" => ModelGeneratorConfigHelper::getInstance()->getNamespace(),
+              "--overwrite" => ""
+            ]);
+        }
+
         foreach ($models as $model) {
             $this->generateModel($model);
         }
@@ -78,6 +89,8 @@ class ModelGenerator
 
                 Artisan::call("krlove:generate:model", $options);
                 break;
+            case ModelGeneratorConfigHelper::LIB_PEPIJ:
+                break;
             case ModelGeneratorConfigHelper::LIB_RELIESE:
             default:
                 $options = [
@@ -86,7 +99,6 @@ class ModelGenerator
                 Artisan::call("code:models", $options);
                 break;
         }
-
 
         $this->adjustModel($model);
     }
@@ -106,7 +118,8 @@ class ModelGenerator
         $this->classtailor->tailorClass($classfile);
     }
 
-    private function handleExistingModelAdjustment(array $model) {
+    private function handleExistingModelAdjustment(array $model)
+    {
         $name = $model[ModelGeneratorConfigHelper::MODELNAME_KEY];
         $modelpath = ModelGeneratorConfigHelper::getInstance()->getOutputpathToModel($name);
 
@@ -118,7 +131,8 @@ class ModelGenerator
         return $classfile;
     }
 
-    private function handleNonExistentModelAdjustment($model) {
+    private function handleNonExistentModelAdjustment($model)
+    {
         $name = $model[ModelGeneratorConfigHelper::MODELNAME_KEY];
         $modelpath = ModelGeneratorConfigHelper::getInstance()->getOutputpathToModel($name);
 
