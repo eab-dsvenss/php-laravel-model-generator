@@ -47,6 +47,10 @@ class ModelGeneratorServiceProvider extends ServiceProvider
         if (class_exists("Krlove\\EloquentModelGenerator\\Provider\\GeneratorServiceProvider")) {
             $this->app->register('Krlove\\EloquentModelGenerator\\Provider\\GeneratorServiceProvider');
         }
+
+        if (class_exists("\\Reliese\\Coders\\CodersServiceProvider")) {
+            $this->app->register("\\Reliese\\Coders\\CodersServiceProvider");
+        }
     }
 
 }

@@ -110,7 +110,6 @@ class ModelGeneratorTest extends \Codeception\Test\Unit
         ]);
         test::methods($this->confighelper_mock, [
             'getModels',
-            'getNamespace',
             "getOutputpath",
             'getModelAdjustmentArray',
             'getExtrasFilenames',

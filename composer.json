@@ -19,7 +19,8 @@
         "krlove/eloquent-model-generator": "^1.2",
         "eab-dsvenss/php-classtailor": "dev-master",
         "laravel/framework": ">=5.3",
-        "eab-dsvenss/php-laravel-util": "dev-master"
+        "eab-dsvenss/php-laravel-util": "dev-master",
+        "reliese/laravel": "^0.0.13"
     },
     "require-dev": {
         "codeception/codeception": "^2.4",

@@ -35,8 +35,8 @@ Call `php artisan eab-modelgenerator:generate` to generate the models specified 
 
 ```
 return [
-    "namespace" => "App",
     "outputpath" => "model",
+    "library" => "krlove/reliese",
     "models" => [
         ["name" => "Dummy", <"table" => "DummyTable">, <"extras" => ["crud", "translatable"]>]
     ]
@@ -46,6 +46,14 @@ return [
 Each model can be decorated with extras. They are specified in the `extras`-array and point to files in `app/config/eab-modelgenerator/extras/<extrasname>.php`
 
 The extras-file is formatted in the same way as any other modelconfig-file.
+
+### Library
+
+By specifying one or the other of `krlove` or `reliese` for the `lib` it is possible to choose which library should be used to generate the models. 
+
+If choosing `krlove` further config need to be set in the corresponding config-file for that dependency. The options and details are specified here, <https://github.com/krlove/eloquent-model-generator>
+
+If instead choosing `reliese`, the config that should be set is instead specified here, <https://github.com/reliese/laravel>
 
 ## Model config
 

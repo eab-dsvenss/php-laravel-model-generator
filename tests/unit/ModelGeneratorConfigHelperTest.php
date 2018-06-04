@@ -49,15 +49,6 @@ class ModelGeneratorConfigHelperTest extends \Codeception\Test\Unit
         $this->assertEquals($models, $actualmodels);
     }
 
-    public function testGetNamespace()
-    {
-        $namespace = "namespace";
-        $this->setConfigMock($namespace);
-
-        $actualnamespace = ModelGeneratorConfigHelper::getInstance()->getNamespace();
-        $this->assertEquals($namespace, $actualnamespace);
-    }
-
     public function testGetOutputpath()
     {
         $outputpath = "outputpath";

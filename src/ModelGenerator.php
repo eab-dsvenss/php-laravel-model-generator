@@ -57,43 +57,56 @@ class ModelGenerator
         Artisan::call("config:cache"); // Update config cache so that new model config files are taken into consideration
 
         $models = ModelGeneratorConfigHelper::getInstance()->getModels();
-        $namespace = ModelGeneratorConfigHelper::getInstance()->getNamespace();
-        $outputpath = ModelGeneratorConfigHelper::getInstance()->getOutputpath();
 
         foreach ($models as $model) {
-            $this->generateModel($model, $outputpath, $namespace);
+            $this->generateModel($model);
         }
     }
 
-    private function generateModel($model, $outputpath, $namespace)
+    private function generateModel($model)
     {
-        $modelname = $model['name'];
-        // Cannot pass key-less parameters to an artisan call. Fortunately the class-name key was a key that could be used.
-        // Discovered by looking at the error message thrown by the command when passed the wrong parameters
-        $options = ["class-name" => $modelname, "--output-path" => app_path($outputpath), "--namespace" => $namespace];
+        $lib = ModelGeneratorConfigHelper::getInstance()->getLibrary();
+        switch ($lib) {
+            case "krlove":
+                $modelname = $model[ModelGeneratorConfigHelper::MODELNAME_KEY];
+                // Cannot pass key-less parameters to an artisan call. Fortunately the class-name key was a key that could be used.
+                // Discovered by looking at the error message thrown by the command when passed the wrong parameters
+                $options = ["class-name" => $modelname];
 
-        if (isset($model['table'])) {
-            $options["--table-name"] = $model['table'];
+                if (isset($model[ModelGeneratorConfigHelper::MODELTABLE_KEY])) {
+                    $options["--table-name"] = $model[ModelGeneratorConfigHelper::MODELTABLE_KEY];
+                }
+
+                Artisan::call("krlove:generate:model", $options);
+                break;
+            case "reliese":
+                $options = [
+                  "--table" => isset($model[ModelGeneratorConfigHelper::MODELTABLE_KEY]) ? $model[ModelGeneratorConfigHelper::MODELTABLE_KEY] : strtolower($model[ModelGeneratorConfigHelper::MODELNAME_KEY]) . "s"
+                ];
+                Artisan::call("code:models", $options);
+                break;
+            default:
+
+                break;
         }
 
-        Artisan::call("krlove:generate:model", $options);
 
-        $this->adjustModel($model, $outputpath);
+        $this->adjustModel($model);
     }
 
-    private function adjustModel(array $model, $outputpath)
+    private function adjustModel(array $model)
     {
-        $name = $model['name'];
-        $modelpath = app_path($outputpath . DIRECTORY_SEPARATOR . "$name.php");
+        $name = $model[ModelGeneratorConfigHelper::MODELNAME_KEY];
+        $modelpath = app_path(ModelGeneratorConfigHelper::getInstance()->getOutputpath() . DIRECTORY_SEPARATOR . "$name.php");
 
         if (ModelGeneratorConfigHelper::getInstance()->doesModelAdjustmentsExist($name)) {
             $classfilearray = array_merge($adjustArray = ModelGeneratorConfigHelper::getInstance()->getModelAdjustmentArray($name)
-                , [ClassFileFactory::PATH_KEY => $modelpath]);
+              , [ClassFileFactory::PATH_KEY => $modelpath]);
             $classfile = ClassFileFactory::getInstance()->createClassFileFromArray($classfilearray);
             $this->mergeExtraModelAdjustments($classfile, $model);
         } else {
             $classfile = ClassFileFactory::getInstance()->createClassfileFromArray([
-                ClassFileFactory::PATH_KEY => $modelpath
+              ClassFileFactory::PATH_KEY => $modelpath
             ]);
             $this->mergeExtraModelAdjustments($classfile, $model);
         }
@@ -104,8 +117,8 @@ class ModelGenerator
     private function mergeExtraModelAdjustments(ClassFile &$classfile, array &$model)
     {
         $classfile->mergeClassFile($this->commonclassfile);
-        if (isset($model['extras'])) {
-            foreach ($model['extras'] as $extra) {
+        if (isset($model[ModelGeneratorConfigHelper::MODELEXTRAS_KEY])) {
+            foreach ($model[ModelGeneratorConfigHelper::MODELEXTRAS_KEY] as $extra) {
                 $classfile->mergeClassFile($this->qualifiedExtraClassfiles[$extra]);
             }
         }

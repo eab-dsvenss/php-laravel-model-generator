@@ -20,6 +20,7 @@ class ModelGeneratorConfigHelper
     const MODELNAME_KEY = "name";
     const MODELS_KEY = "models";
     const NAMESPACE_KEY = "namespace";
+    const LIB_KEY = "library";
     const OUTPUTPATH_KEY = "outputpath";
     const COMMON_MODELNAME = "EABCommon";
     const MODELEXTRAS_KEY = "extras";
@@ -51,9 +52,9 @@ class ModelGeneratorConfigHelper
         return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::MODELS_KEY);
     }
 
-    public function getNamespace()
+    public function getLibrary()
     {
-        return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::NAMESPACE_KEY);
+        return config(ModelGeneratorServiceProvider::CONFIG_FILENAME . "." . self::LIB_KEY);
     }
 
     public function getOutputpath()
@@ -126,6 +127,8 @@ EOT;
         return FileHandler::getInstance()->writeToFile($this->extrasfolder . DIRECTORY_SEPARATOR . "$filename.php",
           $filecontent);
     }
+
+
 
 
 }
