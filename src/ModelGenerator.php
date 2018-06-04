@@ -54,6 +54,8 @@ class ModelGenerator
 
     public function generateModels()
     {
+        Artisan::call("config:cache"); // Update config cache so that new model config files are taken into consideration
+
         $models = ModelGeneratorConfigHelper::getInstance()->getModels();
         $namespace = ModelGeneratorConfigHelper::getInstance()->getNamespace();
         $outputpath = ModelGeneratorConfigHelper::getInstance()->getOutputpath();
