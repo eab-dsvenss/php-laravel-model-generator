@@ -12,6 +12,7 @@ namespace se\eab\php\laravel\modelgenerator;
 use se\eab\php\classtailor\model\ClassFile;
 use se\eab\php\classtailor\model\content\VariableContent;
 use se\eab\php\laravel\modelgenerator\config\ModelGeneratorConfigHelper;
+use Artisan;
 
 class RelieseHelper
 {
@@ -37,5 +38,13 @@ class RelieseHelper
             $classfile->addVariable(new VariableContent("protected", "table",
               "'" . ModelGeneratorConfigHelper::getInstance()->getTableForModel($model) . "'"));
         }
+    }
+
+    public function runGenerateCommand($model)
+    {
+        $options = [
+          "--table" => ModelGeneratorConfigHelper::getInstance()->getTableForModel($model)
+        ];
+        Artisan::call("code:models", $options);
     }
 }
