@@ -58,7 +58,6 @@ If instead choosing `reliese`, the config that should be set is instead specifie
 
 ## Model config
 
-Just remove dependencies, functions etc if you do not want them present in the tailored class
 ```
 return [
     
@@ -78,6 +77,9 @@ EOT
     ],
     "variables" => [
         ["access" => "public", "name" => "varname", <"value" => "some value">]
+    ],
+    "traits" => [
+        ["name" => "traitname", "dependency" => "traitname"
     ]
 ];
 ```

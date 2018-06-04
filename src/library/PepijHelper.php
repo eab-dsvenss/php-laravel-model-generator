@@ -6,7 +6,7 @@
  * Time: 17:15
  */
 
-namespace se\eab\php\laravel\modelgenerator;
+namespace se\eab\php\laravel\modelgenerator\library;
 
 use se\eab\php\laravel\modelgenerator\config\ModelGeneratorConfigHelper;
 use Artisan;

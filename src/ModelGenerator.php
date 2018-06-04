@@ -3,7 +3,9 @@
 namespace se\eab\php\laravel\modelgenerator;
 
 use se\eab\php\classtailor\model\ClassFile;
-use se\eab\php\classtailor\model\content\VariableContent;
+use se\eab\php\laravel\modelgenerator\library\KrloveHelper;
+use se\eab\php\laravel\modelgenerator\library\PepijHelper;
+use se\eab\php\laravel\modelgenerator\library\RelieseHelper;
 use se\eab\php\laravel\modelgenerator\provider\ModelGeneratorServiceProvider;
 use se\eab\php\classtailor\ClassTailor;
 use se\eab\php\classtailor\factory\ClassFileFactory;
