@@ -71,7 +71,7 @@ class ModelGeneratorConfigHelper
         return config(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME . "." . ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_EXTRAFOLDER . ".$name");
     }
 
-    public function getAdjustmentsPath($name = NULL)
+    public function getAdjustmentsPath($name = null)
     {
         $path = config(ModelGeneratorServiceProvider::MODEL_ADJUSTMENTS_FOLDERNAME);
         if (isset($name)) {
@@ -83,7 +83,8 @@ class ModelGeneratorConfigHelper
 
     public function hasExtrasQualifier(array $model, $qualifier)
     {
-       return isset($model[ModelGeneratorConfigHelper::MODELEXTRAS_KEY]) && in_array($qualifier, $model[ModelGeneratorConfigHelper::MODELEXTRAS_KEY]);
+        return isset($model[ModelGeneratorConfigHelper::MODELEXTRAS_KEY]) && in_array($qualifier,
+            $model[ModelGeneratorConfigHelper::MODELEXTRAS_KEY]);
     }
 
     public function doesModelAdjustmentsExist($name)
@@ -96,9 +97,14 @@ class ModelGeneratorConfigHelper
     {
         $files = scandir($this->extrasfolder);
         if ($files) {
-            return array_filter($files, function ($item) {
-                return !is_dir($this->extrasfolder . DIRECTORY_SEPARATOR . $item);
-            });
+            $filenames = [];
+            foreach ($files as $file) {
+                if (!is_dir($this->extrasfolder . DIRECTORY_SEPARATOR . $file)) {
+                    $filenames[] = str_replace(".php", "", $file);
+                }
+            }
+
+            return $filenames;
         }
         return [];
     }
@@ -117,7 +123,8 @@ class ModelGeneratorConfigHelper
 return $adjustmentsstr;
 EOT;
 
-        return FileHandler::getInstance()->writeToFile($this->extrasfolder . DIRECTORY_SEPARATOR . "$filename.php", $filecontent);
+        return FileHandler::getInstance()->writeToFile($this->extrasfolder . DIRECTORY_SEPARATOR . "$filename.php",
+          $filecontent);
     }
 
 

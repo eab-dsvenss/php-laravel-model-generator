@@ -22,15 +22,16 @@ php artisan eab-modelgenerator:install
 
 # Usage
 
-Specify models to generate in `eab-modelgeneratorconfig`
+Specify models to generate in `app/config/eab-modelgeneratorconfig.php`
+
+Specify the details for each model in `app/config/eab-modelgenerator/<modelname>.php`
 
 Call `php artisan eab-modelgenerator:generate` to generate the models specified in the config file
 
-Update the "Dummy"-model and remove the adjustmentsfile
 
 # Configuration
 
-## Config example
+## eab-modelgeneratorconfig.php
 
 ```
 return [
@@ -42,7 +43,12 @@ return [
 ];
 ```
 
-## Model tailoring example
+Each model can be decorated with extras. They are specified in the `extras`-array and point to files in `app/config/eab-modelgenerator/extras/<extrasname>.php`
+
+The extras-file is formatted in the same way as any other modelconfig-file.
+
+## Model config
+
 Just remove dependencies, functions etc if you do not want them present in the tailored class
 ```
 return [
@@ -59,12 +65,12 @@ public function test() {
 EOT
     ],
     "variables" => [
-        ["access" => "public", "name" => "varname"]
+        ["access" => "public", "name" => "varname", <"value" => "some value">]
     ]
 ];
 ```
 
 ## Common Class Attributes 
 
-If there are attributes that should be present in all classes the following classname 
-should be used in the config folder: `EABCommon.php` and such attributes placed whithin that file.
+If there are attributes that should be present in all classes, specify that in `app/config/eab-modelgenerator/EABCommon.php`
+

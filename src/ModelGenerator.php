@@ -120,7 +120,7 @@ class ModelGenerator
     {
         $this->qualifiedExtraClassfiles = [];
         foreach (ModelGeneratorConfigHelper::getInstance()->getExtrasFilenames() as $filename) {
-            $this->qualifiedExtraClassfiles[$filename] = ClassFileFActory::getInstance()->createClassfileFromArray(ModelGeneratorConfigHelper::getInstance()->getExtraModelAdjustmentArray($filename));
+            $this->qualifiedExtraClassfiles[$filename] = ClassFileFactory::getInstance()->createClassfileFromArray(ModelGeneratorConfigHelper::getInstance()->getExtraModelAdjustmentArray($filename));
         }
     }
 }
