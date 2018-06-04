@@ -54,6 +54,9 @@ Just remove dependencies, functions etc if you do not want them present in the t
 return [
     
     "dependencies" => ["dep1","dep2"],
+    "replaceables" => [
+        ["pattern" => "regex", "replacement" => "replacement"]
+    ],
     "removablefns" => [
         ["access" => "public", "name" => "dummyname", "content" => "dummycontent"]
     ],
@@ -69,6 +72,8 @@ EOT
     ]
 ];
 ```
+
+The replacements that occur use `preg_replace` which means that regex and replacement should be formatted according to that method's requirements.
 
 ## Common Class Attributes 
 
