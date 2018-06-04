@@ -35,7 +35,7 @@ class RelieseHelper
     {
         if (ModelGeneratorConfigHelper::getInstance()->getLibrary() == ModelGeneratorConfigHelper::LIB_RELIESE) {
             $classfile->addVariable(new VariableContent("protected", "table",
-              $model[ModelGeneratorConfigHelper::MODELTABLE_KEY]));
+              "'" . ModelGeneratorConfigHelper::getInstance()->getTableForModel($model) . "'"));
         }
     }
 }

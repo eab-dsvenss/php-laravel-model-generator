@@ -134,7 +134,10 @@ EOT;
           $filecontent);
     }
 
-
+    public function getTableForModel(array $model)
+    {
+        return isset($model[ModelGeneratorConfigHelper::MODELTABLE_KEY]) ? $model[ModelGeneratorConfigHelper::MODELTABLE_KEY] : strtolower($model[ModelGeneratorConfigHelper::MODELNAME_KEY]) . "s";
+    }
 
 
 }

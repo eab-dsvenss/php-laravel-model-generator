@@ -74,16 +74,14 @@ class ModelGenerator
                 // Discovered by looking at the error message thrown by the command when passed the wrong parameters
                 $options = ["class-name" => $modelname];
 
-                if (isset($model[ModelGeneratorConfigHelper::MODELTABLE_KEY])) {
-                    $options["--table-name"] = $model[ModelGeneratorConfigHelper::MODELTABLE_KEY];
-                }
+                $options["--table-name"] = ModelGeneratorConfigHelper::getInstance()->getTableForModel($model);
 
                 Artisan::call("krlove:generate:model", $options);
                 break;
             case ModelGeneratorConfigHelper::LIB_RELIESE:
             default:
                 $options = [
-                  "--table" => isset($model[ModelGeneratorConfigHelper::MODELTABLE_KEY]) ? $model[ModelGeneratorConfigHelper::MODELTABLE_KEY] : strtolower($model[ModelGeneratorConfigHelper::MODELNAME_KEY]) . "s"
+                  "--table" => ModelGeneratorConfigHelper::getInstance()->getTableForModel($model)
                 ];
                 Artisan::call("code:models", $options);
                 break;
