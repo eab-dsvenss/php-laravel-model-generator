@@ -7,7 +7,7 @@ Get package
 ```
 composer require eab-dsvenss/php-laravel-model-generator --dev
 ```
-Register the provider in `app.php`
+Register the provider in `config/app.php`
 
 ```
 'providers' => [
@@ -50,7 +50,7 @@ The extras-file is formatted in the same way as any other modelconfig-file.
 
 ### Library
 
-By specifying one or the other of `krlove` or `reliese` or `pepij` for the `lib` it is possible to choose which library should be used to generate the models. 
+By specifying one or the other of `krlove` or `reliese` or `pepij` for the `lib` it is possible to choose which library should be used to generate the models.
 
 If choosing `krlove` further config need to be set in the corresponding config-file for that dependency. The options and details are specified here, <https://github.com/krlove/eloquent-model-generator>
 
@@ -60,7 +60,7 @@ If instead choosing `reliese`, the config that should be set is instead specifie
 
 ```
 return [
-    
+
     "dependencies" => ["dep1","dep2"],
     "replaceables" => [
         ["pattern" => "regex", "replacement" => "replacement"]
@@ -86,7 +86,6 @@ EOT
 
 The replacements that occur use `preg_replace` which means that regex and replacement should be formatted according to that method's requirements.
 
-## Common Class Attributes 
+## Common Class Attributes
 
 If there are attributes that should be present in all classes, specify that in `app/config/eab-modelgenerator/EABCommon.php`
-

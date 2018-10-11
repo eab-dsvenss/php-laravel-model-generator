@@ -63,11 +63,6 @@ class ModelGenerator
 
         $lib = ModelGeneratorConfigHelper::getInstance()->getLibrary();
 
-
-        if ($lib == ModelGeneratorConfigHelper::LIB_PEPIJ) {
-            PepijHelper::getInstance()->runGenerateCommand();
-        }
-
         foreach ($models as $model) {
             $this->generateModel($model);
         }
@@ -79,8 +74,6 @@ class ModelGenerator
         switch ($lib) {
             case ModelGeneratorConfigHelper::LIB_KRLOVE:
                 KrloveHelper::getInstance()->runGenerateCommand($model);
-                break;
-            case ModelGeneratorConfigHelper::LIB_PEPIJ:
                 break;
             case ModelGeneratorConfigHelper::LIB_RELIESE:
             default:

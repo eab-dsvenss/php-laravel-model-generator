@@ -2,6 +2,7 @@
     "name": "eab-dsvenss/php-laravel-model-generator",
     "description": "Laravel model generator wrapper for generating models from db",
     "type": "library",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "Daniel Svensson"
@@ -20,19 +21,10 @@
         "eab-dsvenss/php-classtailor": "dev-master",
         "laravel/framework": ">=5.3",
         "eab-dsvenss/php-laravel-util": "dev-master",
-        "reliese/laravel": "^0.0.13",
-        "xethron/migrations-generator": "dev-l5",
-        "way/generators": "dev-feature/laravel-five-stable",
-        "user11001/eloquent-model-generator": "~2.0"
+        "reliese/laravel": "^0.0.13"
     },
     "require-dev": {
         "codeception/codeception": "^2.4",
         "codeception/aspect-mock": "*"
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/jamisonvalenta/Laravel-4-Generators.git"
-        }
-    ]
+    }
 }

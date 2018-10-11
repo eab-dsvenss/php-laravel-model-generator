@@ -26,8 +26,6 @@ class ModelGeneratorConfigHelper
     const MODELEXTRAS_KEY = "extras";
     const LIB_RELIESE = "reliese";
     const LIB_KRLOVE = "krlove";
-    const LIB_PEPIJ = "pepij";
-
 
     private $extrasfolder;
 
