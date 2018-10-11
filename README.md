@@ -50,11 +50,15 @@ The extras-file is formatted in the same way as any other modelconfig-file.
 
 ### Library
 
-By specifying one or the other of `krlove` or `reliese` or `pepij` for the `lib` it is possible to choose which library should be used to generate the models.
+By specifying one or the other of `krlove` or `reliese` for the `lib` it is possible to choose which library should be used to generate the models.
 
 If choosing `krlove` further config need to be set in the corresponding config-file for that dependency. The options and details are specified here, <https://github.com/krlove/eloquent-model-generator>
 
 If instead choosing `reliese`, the config that should be set is instead specified here, <https://github.com/reliese/laravel>
+
+#### Relise 
+
+This automatically updates models with the date that the model was generated. If that is not desirable it is required to modify the following file `vendor/reliese/laravel/src/Coders/Model/Templates/model` by removing the dynamic date-line in the header of the file.
 
 ## Model config
 
